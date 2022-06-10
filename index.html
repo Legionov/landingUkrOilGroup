@@ -226,31 +226,39 @@
 			</div>
 </footer>
 </section>
-
 <div class="popupcustom" id="popupeuro95">
 	<a href="#topline" class="popup__area">
 	<div class="popup__body">
 		<div class="popup__content">
 			<a href="#topline" class="popup__close popup__close-custom">Закрити</a>
-			<form enctype="multipart/form-data" method="post" action="send.php">
+			<form name="gasoline" enctype="multipart/form-data" method="post" action="send.php">
 				<input type="hidden" name="fueltype" value="Бензин Euro 95">
 				<select name="transporttype" required>
 					<option value="" selected>Тип транспорту</option>
 					<option value="Грузовой">Вантажний</option>
 					<option value="Легковой">Легковий</option>
 				</select>
-				<select name="quantity" required>
-					<option value="" selected>Номінал картки</option>
-					<option value="100Л | Стоимость: 5100₴">100Л | Вартість: 5100₴</option>
-					<option value="500Л | Стоимость: 25500₴">500Л | Вартість: 25500₴</option>
-					<option value="1000Л | Стоимость: 51000₴">1000Л | Вартість: 51000₴</option>
+				<select name="gasstation" id="gasstation">
+				  <option value="okko" selected>OKKO</option>
+				  <option value="wog">WOG</option>
+				  <option value="klo">KLO</option>
+				  <option value="brsm">БРСМ</option>
+				  <option value="socar">SOCAR</option>
 				</select>
+				<select name="pricecoef" id="pricecoef" hidden>
+				</select>
+				<legend>
+					Мінімальна кількість 100 літрів
+				</legend>
+				<input name="gasquan" id=i1 onchange=f() placeholder="Введіть кількість літрів" required>
 				<input type="text" name="firstName" placeholder="Ім'я" required>
 				<input type="text" name="lastName" placeholder="Прізвище" required>
 				<input type="text" name="city" placeholder="Місто" required>
 				<input type="text" name="bldngnumber" placeholder="Відділення НП" required>
 				<input type="tel" id="tel1" name="tel" placeholder="Телефон" required>
 				<input type="email" name="email" placeholder="Електронна пошта" required>
+				<legend>Вартість замовлення</legend>
+				<input id=i3 placeholder="Оберіть заправку та введіть літраж" readonly class="custominputresult"><br>
 				<button type="submit">Оформити замовлення</button>
 			</form>
 		</div>
@@ -270,28 +278,94 @@
 					<option value="Грузовой">Вантажний</option>
 					<option value="Легковой">Легковий</option>
 				</select>
-				<select name="quantity" required>
-					<option value="" selected>Номінал картки</option>
-					<option value="100Л | Стоимость: 5700₴">100Л | Вартість: 5700₴</option>
-					<option value="500Л | Стоимость: 28500₴">500Л | Вартість: 28500₴</option>
-					<option value="1000Л | Стоимость: 57000₴">1000Л | Вартість: 57000₴</option>
+				<select name="gasstation" id="gasstation">
+				  <option value="okko" selected>OKKO</option>
+				  <option value="wog">WOG</option>
+				  <option value="klo">KLO</option>
+				  <option value="brsm">БРСМ</option>
+				  <option value="socar">SOCAR</option>
 				</select>
+				<select name="pricecoef" id="pricecoef" hidden>
+				</select>
+				<legend>
+					Мінімальна кількість 100 літрів
+				</legend>
+				<input name="gasquan" id=i1 onchange=f() placeholder="Введіть кількість літрів" required>
 				<input type="text" name="firstName" placeholder="Ім'я" required>
 				<input type="text" name="lastName" placeholder="Прізвище" required>
 				<input type="text" name="city" placeholder="Місто" required>
 				<input type="text" name="bldngnumber" placeholder="Відділення НП" required>
 				<input type="tel" id="tel2" name="tel" placeholder="Телефон" required>
 				<input type="email" name="email" placeholder="Електронна пошта" required>
+				<legend>Вартість замовлення</legend>
+				<input id=i3 placeholder="Оберіть заправку та введіть літраж" readonly class="custominputresult"><br>
 				<button type="submit">Оформити замовлення</button>
 			</form>
 		</div>
 	</div>
 	</a>
 </div>
+
 <script type="text/javascript">
    jQuery(function($){
-   $("#tel").mask("+38 (999) 999 - 9999");
+   $("#tel, #tel2").mask("+38 (999) 999 - 9999");
    });
 </script>
-     </body>
-     </html>
+
+<script type="text/javascript">
+   jQuery(function($){
+   $('#i1').mask('999').on('click', function () {
+    if ($(this).val() === '___') {
+        $(this).get(0).setSelectionRange(0, 0);
+    }
+});
+});
+</script>
+
+<script>
+	var cities = {
+	  okko: [1],
+	  wog: [2],
+	  klo: [3],
+	  brsm: [4],
+	  socar: [5]
+	};
+	var country = document.getElementById("gasstation");
+	var city = document.querySelector("#pricecoef");
+	window.onload = selectCountry;
+	country.onchange = selectCountry;
+
+	function selectCountry(ev){
+	  city.innerHTML = "";
+	  var c = this.value || "okko", o;
+	  for(let i = 0; i < cities[c].length; i++){
+	    o = new Option(cities[c][i],i,false,false);
+	    city.add(o);
+	  };
+	}
+</script>
+
+<script>
+	$('#i1').change(function(){
+    var val = $(this).val();
+    $(this).val(Math.round(val/10)*10);
+})
+</script>
+
+<script>
+	function f(){
+	var n1=document.getElementById('i1').value;
+	var n2=document.getElementById('pricecoef').textContent;
+	var n3=document.getElementById('i3').value=Math.round(Number(n1)*Number(n2)/10)*10 + ' ' + 'гривень';
+	}
+</script>
+
+<script>
+	$('#i3').change(function(){
+    var val = $(this).val();
+    $(this).val(Math.round(val/10)*10);
+})
+</script>
+
+</body>
+</html>

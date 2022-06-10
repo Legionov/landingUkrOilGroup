@@ -8,17 +8,26 @@ $email = $_POST['email'];
 $fueltype = $_POST['eurodieselid'];
 $transporttype = $_POST['transporttype'];
 $fueltype = $_POST['fueltype'];
-$quantity = $_POST['quantity'];
+$gasstation = $_POST['gasstation'];
+$pricecoef = $_POST['pricecoef'];
+$gasquan = $_POST['gasquan'];
+$gassumm = $_POST['gassumm'];
+
+
 $body = "
 Тип топлива: $fueltype
 Тип транспорта: $transporttype
-Номинал: $quantity
+Заправка: $gasstation
+Цена за литр: $pricecoef
+Количество литров: $gasquan
+Сумма заказа: $gassumm
 Имя: $firstName
 Фамилия: $lastName
 Город: $city
 Отделение НП: $bldngnumber
 Телефон: $tel
 Почта: $email
+
 ";
 $login    = 'ukroilgroupbusiness@gmail.com
 '; // замените test@gmail.com на адрес электронной почты, с которого производится отправка (поскольку логин совпадает с адресом отправителя - данная переменная используется и как логин, и как адрес отправителя)

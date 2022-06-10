@@ -118,7 +118,7 @@
                         <h3 class="services-section__title">
                                                             ПАЛЬНЕ
                                                     </h3>
-                        <p class="services-section__text">Ми, як компанія UKR OIL GROUP на ринку нафтових продуктів уже понад 10 років і реалізуємо талони та смарт-картки від таких АЗС як OKKO, WOG, SOCAR, KLO та БРСМ по всій Україні.
+                        <p class="services-section__text">Ми, як компанія UKR OIL GROUP на ринку нафтових продуктів уже понад 10 років і реалізуємо талони та смарт-картки від таких АЗС як OKKO, WOG, SOCAR, KLO, та БРСМ по всій Україні.
 </p>
 
                     </div>
@@ -145,7 +145,7 @@
 	                       		</div>
 									</div>
 								</a>
-								<a href="eurodiesel.html#popupeurodiesel">
+								<a href="#popupeurodiesel">
 								<div class="col-sm-6 col-md-4 col-lg-3">
 									<div class="fuel-item card">
 										<div class="fuel-item__image">
@@ -158,7 +158,7 @@
 										<div class="fuel-item__description">
 											<div class="fuel-item__subtitle">Euro Disel</div>
 											<div class="fuel-item__text">Европейське пальне</div>
-											<a href="eurodiesel.html#popupeurodiesel" class="button-more">
+											<a href="#popupeurodiesel" class="button-more">
 												<span class="button-more__title"> </span>
 												<img src="./src/right-arrow.png" alt="">
 											</a>
@@ -235,5 +235,106 @@
 			</div>
 </footer>
 </section>
+
+
+	<div class="popupcustom" id="popupeurodiesel">
+		<a href="#topline" class="popup__area">
+		<div class="popup__body">
+			<div class="popup__content">
+				<a href="#topline" class="popup__close popup__close-custom">Закрити</a>
+				<form enctype="multipart/form-data" method="post" action="send.php">
+					<input type="hidden" name="fueltype" value="Евро Дизель">
+					<select name="transporttype" id="transporttype" required>
+						<option value="" selected>Тип транспорту</option>
+						<option value="Грузовой">Вантажний</option>
+						<option value="Легковой">Легковий</option>
+					</select>
+					<select name="gasstation" class="gasstation_diesel" id="gasstation_diesel">
+					  <option value="okko_diesel" selected>OKKO</option>
+					  <option value="wog_diesel">WOG</option>
+					  <option value="klo_diesel">KLO</option>
+					  <option value="brsm_diesel">БРСМ</option>
+					  <option value="socar_diesel">SOCAR</option>
+					</select>
+					<select name="pricecoef" id="pricecoef_diesel" hidden>
+					</select>
+					<legend>
+						Мінімальна кількість 100 літрів. <br>На кожні 500 грн надаємо 1 грн знижки.
+					</legend>
+					<input name="gasquan" id=i1_diesel onchange=f_diesel() placeholder="Введіть кількість літрів" required>
+					<input type="text" name="firstName" placeholder="Ім'я" required>
+					<input type="text" name="lastName" placeholder="Прізвище" required>
+					<input type="text" name="city" placeholder="Місто" required>
+					<input type="text" name="bldngnumber" placeholder="Відділення НП" required>
+					<input type="tel" id="tel2" name="tel" placeholder="Телефон" required>
+					<input type="email" name="email" placeholder="Електронна пошта" required>
+					<legend>Вартість замовлення</legend>
+					<input name="gassumm" id=i3_diesel placeholder="Оберіть заправку та введіть літраж" readonly class="custominputresult"><br>
+					<button type="submit">Оформити замовлення</button>
+				</form>
+			</div>
+		</div>
+		</a>
+	</div>
+
+<script type="text/javascript">
+   jQuery(function($){
+   $("#tel, #tel2").mask("+38 (999) 999 - 9999");
+   });
+</script>
+
+<script type="text/javascript">
+jQuery(function($){
+$('#i1_diesel').mask('999').on('click', function () {
+ if ($(this).val() === '___') {
+     $(this).get(0).setSelectionRange(0, 0);
+ }
+});
+});
+</script>
+
+<script>
+	var cities_diesel = {
+	  okko_diesel: [57],
+	  wog_diesel: [57],
+	  klo_diesel: [58],
+	  brsm_diesel: [56.99],
+	  socar_diesel: [57.66]
+	};
+	var country_diesel = document.getElementById("gasstation_diesel");
+	var city_diesel = document.querySelector("#pricecoef_diesel");
+	window.onload = selectCountry_diesel;
+	country_diesel.onchange = selectCountry_diesel;
+
+	function selectCountry_diesel(ev){
+	  city_diesel.innerHTML = "";
+	  var c_diesel = this.value || "okko_diesel", o_diesel;
+	  for(let i_diesel = 0; i_diesel < cities_diesel[c_diesel].length; i_diesel++){
+	    o_diesel = new Option(cities_diesel[c_diesel][i_diesel],i_diesel,false,false);
+	    city_diesel.add(o_diesel);
+	  };
+	}
+</script>
+
+<script>
+	$('#i1_diesel').change(function(){
+    var val_diesel = $(this).val();
+    $(this).val(Math.round(val_diesel/10)*10);
+})
+</script>
+
+<script>
+	function f_diesel(){
+	var n1_diesel=document.getElementById('i1_diesel').value;
+	var n2_diesel=document.getElementById('pricecoef_diesel').textContent;
+	var n3_diesel=document.getElementById('i3_diesel').value=Math.round(Number(n1_diesel)*Number(n2_diesel)/10)*10 + ' ' + 'гривень';
+	}
+</script>
+<script>
+	jQuery('.popup__content').on('change','.gasstation_diesel',function(){
+      var clearinputid=document.getElementById('i1_diesel').value=0;
+      var clearoutputid=document.getElementById('i3_diesel').value=0;
+	});
+</script>
 </body>
 </html>

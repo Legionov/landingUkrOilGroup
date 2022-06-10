@@ -125,7 +125,7 @@
                 </div>
                 <div class="col-12">
 							<div class="row fuel-list">
-								<a href="eurogas.html#popupeuro95">
+								<a href="#popupeuro95">
 									<div class="col-sm-6 col-md-4 col-lg-3">
 										 <div class="fuel-item card">
 											<div class="fuel-item__image">
@@ -137,7 +137,7 @@
 			                           <div class="fuel-item__description">
 			                               <div class="fuel-item__subtitle">Euro 95</div>
 			                               <div class="fuel-item__text">Европейське пальне</div>
-			                               <a href="eurogas.html#popupeuro95" class="button-more">
+			                               <a href="#popupeuro95" class="button-more">
 			                                   <span class="button-more__title"> </span>
 			                                   <img src="./src/right-arrow.png" alt="">
 			                               </a>
@@ -235,5 +235,113 @@
 			</div>
 </footer>
 </section>
+<div class="popupcustom" id="popupeuro95">
+	<a href="#topline" class="popup__area">
+	<div class="popup__body">
+		<div class="popup__content">
+			<a href="#topline" class="popup__close popup__close-custom">Закрити</a>
+			<form name="gasoline" enctype="multipart/form-data" method="post" action="send.php">
+				<input type="hidden" name="fueltype" value="Бензин Euro 95">
+				<select name="transporttype" required>
+					<option value="" selected>Тип транспорту</option>
+					<option value="Грузовой">Вантажний</option>
+					<option value="Легковой">Легковий</option>
+				</select>
+				<select name="gasstation" class="gasstation_95" id="gasstation_95">
+				  <option value="okko_95" selected>OKKO</option>
+				  <option value="wog_95">WOG</option>
+				  <option value="klo_95">KLO</option>
+				  <option value="brsm_95">БРСМ</option>
+				  <option value="socar_95">SOCAR</option>
+				</select>
+				<select name="pricecoef" id="pricecoef_95" hidden>
+				</select>
+				<legend>
+					Мінімальна кількість 100 літрів. <br>На кожні 500 грн надаємо 1 грн знижки.
+				</legend>
+				<input name="gasquan" id=i1_95 onchange=f_95() placeholder="Введіть кількість літрів" required>
+				<input type="text" name="firstName" placeholder="Ім'я" required>
+				<input type="text" name="lastName" placeholder="Прізвище" required>
+				<input type="text" name="city" placeholder="Місто" required>
+				<input type="text" name="bldngnumber" placeholder="Відділення НП" required>
+				<input type="tel" id="tel1" name="tel" placeholder="Телефон" required>
+				<input type="email" name="email" placeholder="Електронна пошта" required>
+				<legend>Вартість замовлення</legend>
+				<input name="gassumm" id=i3_95 placeholder="Оберіть заправку та введіть літраж" readonly class="custominputresult"><br>
+				<button type="submit">Оформити замовлення</button>
+			</form>
+		</div>
+	</div>
+	</a>
+</div>
+
+<script type="text/javascript">
+   jQuery(function($){
+   $("#tel, #tel2").mask("+38 (999) 999 - 9999");
+   });
+</script>
+
+<script type="text/javascript">
+   jQuery(function($){
+   $('#i1_95').mask('999').on('click', function () {
+    if ($(this).val() === '___') {
+        $(this).get(0).setSelectionRange(0, 0);
+    }
+});
+});
+</script>
+
+<script>
+	var cities_95 = {
+	  okko_95: [51],
+	  wog_95: [51],
+	  klo_95: [52],
+	  brsm_95: [50.99],
+	  socar_95: [0]
+	};
+	var country_95 = document.getElementById("gasstation_95");
+	var city_95 = document.querySelector("#pricecoef_95");
+	window.onload = selectCountry_95;
+	country_95.onchange = selectCountry_95;
+
+	function selectCountry_95(ev){
+	  city_95.innerHTML = "";
+	  var c_95 = this.value || "okko_95", o_95;
+	  for(let i_95 = 0; i_95 < cities_95[c_95].length; i_95++){
+	    o_95 = new Option(cities_95[c_95][i_95],i_95,false,false);
+	    city_95.add(o_95);
+	  };
+	}
+</script>
+
+<script>
+	$('#i1_95').change(function(){
+    var val_95 = $(this).val();
+    $(this).val(Math.round(val_95/10)*10);
+})
+</script>
+
+<script>
+	function f_95(){
+	var n1_95=document.getElementById('i1_95').value;
+	var n2_95=document.getElementById('pricecoef_95').textContent;
+	var n3_95=document.getElementById('i3_95').value=Math.fround(Number(n1_95)*Number(n2_95)/10)*10 + ' ' + 'гривень';
+	}
+</script>
+
+<script>
+	$('#i3_95').change(function(){
+    var val_95 = $(this).val();
+    $(this).val(Math.round(val_95/10)*10);
+})
+</script>
+
+
+<script>
+	jQuery('.popup__content').on('change','.gasstation_95',function(){
+      var clearinputid=document.getElementById('i1_95').value=0;
+      var clearoutputid=document.getElementById('i3_95').value=0;
+	});
+</script>
 </body>
 </html>

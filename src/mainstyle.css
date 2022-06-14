@@ -41,7 +41,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 .popupcustom select, .popupcustom input, .popupcustom button {
   width: 100%;
   border: 1px solid #999;
-  padding: 20px 15px;
+  padding: 10px 15px;
   margin: 5px 0;
   color: #ac7b02;
   border-radius: 5px;

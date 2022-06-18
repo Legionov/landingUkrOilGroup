@@ -283,17 +283,19 @@
    });
 </script>
 
-<!-- <script type="text/javascript">
-jQuery(function($){
-$('#i1_diesel').mask('999').on('click', function () {
- if ($(this).val() === '___') {
-     $(this).get(0).setSelectionRange(0, 0);
- }
-});
-});
-</script> -->
 
 <script>
+	// Global Variable
+	var n1_diesel=document.getElementById('i1_diesel').value;
+
+	$('#i1_diesel').change(function(){
+		var val_diesel = $(this).val();
+		$(this).val(Math.round(val_diesel/10)*10);
+	})
+	
+
+
+	// Arr price on disel or gas
 	var cities_diesel = {
 	  okko_diesel: [57],
 	  wog_diesel: [57],
@@ -301,44 +303,74 @@ $('#i1_diesel').mask('999').on('click', function () {
 	  brsm_diesel: [56.99],
 	  socar_diesel: [57.66]
 	};
+
 	var country_diesel = document.getElementById("gasstation_diesel");
 	var city_diesel = document.querySelector("#pricecoef_diesel");
 	window.onload = selectCountry_diesel;
 	country_diesel.onchange = selectCountry_diesel;
-
+	$('i3_diesel').css({
+		'color': '#ac7b02',
+		'font-size': '18px'
+	})
+ 
+// 1200 получим 62 400
 	function selectCountry_diesel(ev){
-	  city_diesel.innerHTML = "";
-	  var c_diesel = this.value || "okko_diesel", o_diesel;
-	  for(let i_diesel = 0; i_diesel < cities_diesel[c_diesel].length; i_diesel++){
-	    o_diesel = new Option(cities_diesel[c_diesel][i_diesel],i_diesel,false,false);
-	    city_diesel.add(o_diesel);
-	  };
+		city_diesel.innerHTML = "";
+		var c_diesel = this.value || "okko_diesel", o_diesel;
+		for(let index = 0; index < cities_diesel[c_diesel].length; index++){
+			console.log(n1_diesel)
+			if(n1_diesel >= 500 && n1_diesel < 1000){
+				let num = Math.round(n1_diesel/10)*10;
+				console.log('Больше 500 меньше 1000 литров');
+				console.log('Пользователь ввёл: ' + num);
+				console.log('Select/Выбрал: ' + cities_diesel[c_diesel][index]);
+				let calc = num*(cities_diesel[c_diesel][index]-1);
+				console.log("Calculculate/Получаем: " + calc);
+				o_diesel = new Option(cities_diesel[c_diesel][index],index,false,false);
+				city_diesel.add(o_diesel);
+				document.getElementById('i3_diesel').value = calc + ' ' + 'гривень';
+			}else if(n1_diesel > 1000){
+				let num = Math.round(n1_diesel/10)*10;
+				console.log('Больше 1000 литров');
+				console.log('Пользователь ввёл: ' + num);
+				console.log('Select/Выбрал: ' + cities_diesel[c_diesel][index]);
+				let calc = num*(cities_diesel[c_diesel]-2);
+				console.log("Calculculate/Получаем: " + calc);
+				o_diesel = new Option(cities_diesel[c_diesel][index],index,false,false);
+				city_diesel.add(o_diesel);
+				document.getElementById('i3_diesel').value = calc + ' ' + 'гривень';
+			}else if(n1_diesel >= 100 && n1_diesel < 500){
+				let num = Math.round(n1_diesel/10)*10;
+				console.log('Пользователь ввёл: ' + num);
+				console.log('Select/Выбрал: ' + cities_diesel[c_diesel][index]);
+				let calc = num*cities_diesel[c_diesel];
+				console.log("Calculculate/Получаем: " + calc);
+				o_diesel = new Option(cities_diesel[c_diesel][index],index,false,false);
+				city_diesel.add(o_diesel);
+				document.getElementById('i3_diesel').value = calc + ' ' + 'гривень';
+			}
+		}
 	}
-</script>
 
-<script>
-	$('#i1_diesel').change(function(){
-    var val_diesel = $(this).val();
-    $(this).val(Math.round(val_diesel/10)*10);
-})
-</script>
-
-<script>
-function calcForr(){
-		var n1_diesel=document.getElementById('i1_diesel').value;
-		let score = document.getElementById('i1_diesel').value = (Math.round(n1_diesel/10)*10);
-		let n2_diesel=document.getElementById('pricecoef_diesel').textContent;
-		let n3_diesel=document.getElementById('i3_diesel').value=Math.fround(Number(score)*Number(n2_diesel)/10)*10 + ' ' + 'гривень';
-	}
-
+	// If uncorrect user input
 	function f_diesel(){
 		var n1_diesel=document.getElementById('i1_diesel').value;
 		if (n1_diesel <= 100) {
 			document.getElementById('i1_diesel').value = 100;
-			calcForr();
+			calcFor();
+			selectCountry_diesel()
 		}else if(n1_diesel >= 100){
-			calcForr();
+			calcFor();
+			selectCountry_diesel()
 		}
+	}
+	
+		// Calc count money
+	function calcFor(){
+		n1_diesel=document.getElementById('i1_diesel').value;
+		let score = document.getElementById('i1_diesel').value = (Math.round(n1_diesel/10)*10);
+		let n2_diesel=document.getElementById('pricecoef_diesel').textContent;
+		let n3_diesel=document.getElementById('i3_diesel').value=Math.fround(Number(score)*Number(n2_diesel)/10)*10 + ' ' + 'гривень';
 	}
 </script>
 

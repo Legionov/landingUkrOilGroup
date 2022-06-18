@@ -285,51 +285,93 @@
 </script>
 
 <script>
+	// Global Variable
+	var n1_95=document.getElementById('i1_95').value;
+
+	$('#i1_95').change(function(){
+		var val_95 = $(this).val();
+		$(this).val(Math.round(val_95/10)*10);
+	})
+	
+
+
+	// Arr price on disel or gas
 	var cities_95 = {
 	  okko_95: [51],
 	  wog_95: [51],
 	  klo_95: [52],
 	  brsm_95: [50.99],
-	  socar_95: [0]
+	  socar_95: [52]
 	};
+
 	var country_95 = document.getElementById("gasstation_95");
 	var city_95 = document.querySelector("#pricecoef_95");
 	window.onload = selectCountry_95;
 	country_95.onchange = selectCountry_95;
-
+	$('i3_95').css({
+		'color': '#ac7b02',
+		'font-size': '18px'
+	})
+ 
+// 1200 получим 62 400
 	function selectCountry_95(ev){
-	  city_95.innerHTML = "";
-	  var c_95 = this.value || "okko_95", o_95;
-	  for(let i_95 = 0; i_95 < cities_95[c_95].length; i_95++){
-	    o_95 = new Option(cities_95[c_95][i_95],i_95,false,false);
-	    city_95.add(o_95);
-	  };
+		city_95.innerHTML = "";
+		var c_95 = this.value || "okko_95", o_95;
+		for(let index = 0; index < cities_95[c_95].length; index++){
+			console.log(n1_95)
+			if(n1_95 >= 500 && n1_95 < 1000){
+				let num = Math.round(n1_95/10)*10;
+				console.log('Больше 500 меньше 1000 литров');
+				console.log('Пользователь ввёл: ' + num);
+				console.log('Select/Выбрал: ' + cities_95[c_95][index]);
+				let calc = num*(cities_95[c_95][index]-1);
+				console.log("Calculculate/Получаем: " + calc);
+				o_95 = new Option(cities_95[c_95][index],index,false,false);
+				city_95.add(o_95);
+				document.getElementById('i3_95').value = calc + ' ' + 'гривень';
+			}else if(n1_95 > 1000){
+				let num = Math.round(n1_95/10)*10;
+				console.log('Больше 1000 литров');
+				console.log('Пользователь ввёл: ' + num);
+				console.log('Select/Выбрал: ' + cities_95[c_95][index]);
+				let calc = num*(cities_95[c_95]-2);
+				console.log("Calculculate/Получаем: " + calc);
+				o_95 = new Option(cities_95[c_95][index],index,false,false);
+				city_95.add(o_95);
+				document.getElementById('i3_95').value = calc + ' ' + 'гривень';
+			}else if(n1_95 >= 100 && n1_95 < 500){
+				let num = Math.round(n1_95/10)*10;
+				console.log('Пользователь ввёл: ' + num);
+				console.log('Select/Выбрал: ' + cities_95[c_95][index]);
+				let calc = num*cities_95[c_95];
+				console.log("Calculculate/Получаем: " + calc);
+				o_95 = new Option(cities_95[c_95][index],index,false,false);
+				city_95.add(o_95);
+				document.getElementById('i3_95').value = calc + ' ' + 'гривень';
+			}
+		}
 	}
-</script>
 
-<script>
-	$('#i1_95').change(function(){
-    var val_95 = $(this).val();
-    $(this).val(Math.round(val_95/10)*10);
-})
-</script>
-
-<script>
-	function calcFor(){
-		var n1_95=document.getElementById('i1_95').value;
-		let score = document.getElementById('i1_95').value = (Math.round(n1_95/10)*10);
-		let n2_95=document.getElementById('pricecoef_95').textContent;
-		let n3_95=document.getElementById('i3_95').value=Math.fround(Number(score)*Number(n2_95)/10)*10 + ' ' + 'гривень';
-	}
-
+	// If uncorrect user input
 	function f_95(){
 		var n1_95=document.getElementById('i1_95').value;
 		if (n1_95 <= 100) {
 			document.getElementById('i1_95').value = 100;
 			calcFor();
+			selectCountry_95()
 		}else if(n1_95 >= 100){
 			calcFor();
+			selectCountry_95()
 		}
+	}
+	
+
+		// Calc count money
+	function calcFor(){
+		n1_95=document.getElementById('i1_95').value;
+		let score = document.getElementById('i1_95').value = (Math.round(n1_95/10)*10);
+		let n2_95=document.getElementById('pricecoef_95').textContent;
+		let n3_95=document.getElementById('i3_95').value=Math.fround(Number(score)*Number(n2_95)/10)*10 + ' ' + 'гривень';
 	}
 </script>
 
